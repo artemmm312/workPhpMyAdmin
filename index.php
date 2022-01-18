@@ -174,3 +174,35 @@ for ($i = 0; $i < count($result4); $i++)
 }
 echo "</table>";
 echo "<br>";
+
+//Клиент который купил больше всего товаров 
+/* $result5 = $db->pdo
+	->query("SELECT `order`.shopcartID FROM `order` 
+	LEFT JOIN shoppingcart ON shoppingcart.userID = `order`.shopcartID 
+	ORDER BY shopcartID")
+	->fetchAll();
+echo "<table border='1' cellspacing='0' width='50%'>";
+echo "<tr>";
+foreach ($result5[0] as $key => $value)
+{
+	echo "<th>$key</th>";
+}
+echo "</tr>";
+for ($i = 0; $i < count($result5); $i++)
+{
+	echo "<tr>";
+	foreach ($result5[$i] as $key => $value)
+	{
+		echo "<td>$value</td>";
+	}
+	echo "</tr>";
+}
+echo "</table>";
+echo "<br>"; */
+
+
+/* query("SELECT * FROM user 
+	WHERE 
+	(SELECT shopcartID FROM `order` 
+	JOIN shoppingcart ON shoppingcart.userID = `order`.shopcartID 
+	JOIN user ON shoppingcart.userID = user.id)") */
