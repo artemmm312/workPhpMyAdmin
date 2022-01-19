@@ -42,6 +42,7 @@ class Connection
 	}
 }
 
+
 $db = Connection::getInstance();
 
 //Вывод заказов
@@ -149,6 +150,7 @@ for ($i = 0; $i < count($result3); $i++)
 	echo "</tr>";
 }
 echo "</table>";
+
 echo "<br>";
 
 //Топ 5 самых дорогих товаров
@@ -156,6 +158,7 @@ $result4 = $db->pdo
 	->query("SELECT * FROM product ORDER BY price DESC LIMIT 5")
 	->fetchAll();
 
+echo "Топ 5 дорогих товаров:<br>";
 echo "<table border='1' cellspacing='0' width='50%'>";
 echo "<tr>";
 foreach ($result4[0] as $key => $value)
@@ -173,14 +176,15 @@ for ($i = 0; $i < count($result4); $i++)
 	echo "</tr>";
 }
 echo "</table>";
+
 echo "<br>";
 
-//Клиент который купил больше всего товаров 
-/* $result5 = $db->pdo
-	->query("SELECT `order`.shopcartID FROM `order` 
-	LEFT JOIN shoppingcart ON shoppingcart.userID = `order`.shopcartID 
-	ORDER BY shopcartID")
+//Минимальная стоимость товара
+$result5 = $db->pdo
+	->query("SELECT * FROM product WHERE price = (SELECT MIN(price) FROM product)")
 	->fetchAll();
+
+echo "Товар с минимальной стоимостью:<br>";
 echo "<table border='1' cellspacing='0' width='50%'>";
 echo "<tr>";
 foreach ($result5[0] as $key => $value)
@@ -198,11 +202,32 @@ for ($i = 0; $i < count($result5); $i++)
 	echo "</tr>";
 }
 echo "</table>";
-echo "<br>"; */
 
+echo "<br>";
 
-/* query("SELECT * FROM user 
-	WHERE 
-	(SELECT shopcartID FROM `order` 
-	JOIN shoppingcart ON shoppingcart.userID = `order`.shopcartID 
-	JOIN user ON shoppingcart.userID = user.id)") */
+//Клиент который купил больше всего товаров 
+$result6 = $db->pdo
+	->query("SELECT user.id, user.firstName, user.lastName FROM user 
+	JOIN shoppingcart ON shoppingcart.userID = user.id 
+	JOIN `order` ON `order`.shopcartID = shoppingcart.id")
+	->fetchAll();
+
+echo "<table border='1' cellspacing='0' width='50%'>";
+echo "<tr>";
+foreach ($result6[0] as $key => $value)
+{
+	echo "<th>$key</th>";
+}
+echo "</tr>";
+for ($i = 0; $i < count($result6); $i++)
+{
+	echo "<tr>";
+	foreach ($result6[$i] as $key => $value)
+	{
+		echo "<td>$value</td>";
+	}
+	echo "</tr>";
+}
+echo "</table>";
+
+echo "<br>";
