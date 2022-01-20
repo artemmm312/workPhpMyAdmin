@@ -4,5 +4,5 @@ $conf = [
 	'host' => 'localhost',
 	'database' => 'shop',
 	'user' => 'root',
-	'password' => '',
+	'password' => '1111',
 ];

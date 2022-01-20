@@ -207,11 +207,16 @@ echo "<br>";
 
 //Клиент который купил больше всего товаров 
 $result6 = $db->pdo
-	->query("SELECT user.id, user.firstName, user.lastName FROM user 
+	->query("SELECT user.id, user.firstName, user.lastName, COUNT(*) AS `Количество заказов` 
+	FROM user 
 	JOIN shoppingcart ON shoppingcart.userID = user.id 
-	JOIN `order` ON `order`.shopcartID = shoppingcart.id")
+	JOIN `order` ON `order`.shopcartID = shoppingcart.id 
+	GROUP BY user.id
+	ORDER BY `Количество заказов` DESC 
+	LIMIT 1")
 	->fetchAll();
 
+echo "Пользователь сделавший больше всех заказов:<br>";
 echo "<table border='1' cellspacing='0' width='50%'>";
 echo "<tr>";
 foreach ($result6[0] as $key => $value)
